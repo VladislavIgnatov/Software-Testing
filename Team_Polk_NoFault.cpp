@@ -4,6 +4,37 @@
 #include <fstream>
 using namespace std;
 
+class Student {
+	string name, email, unum;
+	int pres, proj, paper;
+public:
+	void set_student(string, string, string);
+	void set_pres(int);
+	void set_proj(int);
+	void set_paper(int);
+};
+
+void Student::set_student(string x, string y, string z) {
+	name = x;
+	unum = y;
+	email = z;
+}
+
+void Student::set_pres(int x)
+{
+	pres = x;
+}
+
+void Student::set_proj(int x)
+{
+	proj = x;
+}
+
+void Student::set_paper(int x)
+{
+	paper = x;
+}
+
 // Displays student data, all of the class or just one student. READ ONLY. INDEPENDENT FUNCTION
 void DISPLAY() {
 	cout << "Display data" << endl;
