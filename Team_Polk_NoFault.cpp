@@ -2,22 +2,44 @@
 #include <iostream>
 #include <string.h>
 #include <fstream>
+#include <vector>
 using namespace std;
 
 class Student {
 	string name, email, unum;
 	int pres, proj, paper;
 public:
-	void set_student(string, string, string);
+	Student(string, string, string, int, int, int);
+	void set_name(string);
+	void set_unum(string);
+	void set_email(string);
 	void set_pres(int);
 	void set_proj(int);
 	void set_paper(int);
 };
 
-void Student::set_student(string x, string y, string z) {
+Student::Student(string x, string y, string z, int a = 0, int b = 0, int c = 0) {
 	name = x;
 	unum = y;
 	email = z;
+	pres = a;
+	paper = b;
+	proj = c;
+}
+
+void Student::set_name(string x)
+{
+	name = x;
+}
+
+void Student::set_unum(string x)
+{
+	unum = x;
+}
+
+void Student::set_email(string x)
+{
+	email = x;
 }
 
 void Student::set_pres(int x)
@@ -63,6 +85,8 @@ void WRITE() {
 // Adds student to the database
 void ADD() {
 	cout << "ADD STUDENT\n";
+	Student tmp = Student("Not Sure", "notsure@charlesjr.com", "u96423678", 2, 2, 2);
+	database.push_back(tmp);
 }
 
 // Delete student from database
