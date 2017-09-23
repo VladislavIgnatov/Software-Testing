@@ -16,6 +16,12 @@ public:
 	void set_pres(int);
 	void set_proj(int);
 	void set_paper(int);
+	string get_name() { return name; };
+	string get_unum() { return unum; };
+	string get_email() { return email; };
+	int get_pres() { return pres; };
+	int get_paper() { return paper; };
+	int get_proj() { return proj; };
 };
 
 Student::Student(string x, string y, string z, int a = 0, int b = 0, int c = 0) {
@@ -59,20 +65,9 @@ void Student::set_paper(int x)
 
 // Displays student data, all of the class or just one student. READ ONLY. INDEPENDENT FUNCTION
 void DISPLAY() {
-	cout << "Display data" << endl;
-
-	string line;
-	ifstream db ("database.txt");
-
-	if (db.is_open()) {
-		while (getline(db, line))
-		{
-			cout << line << endl;
-		}
-		db.close();
-	}
-	else {
-		cout << "File can not open." << endl;
+	for (int i = 0; i < database.size(); i++) {
+		cout << database[i].get_name() << "  " << database[i].get_unum() << "  " << database[i].get_email() << "  Presentaion: ";
+		cout << database[i].get_pres() << "  Paper: " << database[i].get_paper() << "  Project: " << database[i].get_proj() << endl;
 	}
 }
 
@@ -108,19 +103,35 @@ void UPDATE() {
 
 int main() {
 	
-	// file decleration
-	ofstream outfile;
+	string line;
+	ifstream db("database.txt");
 
-	outfile.open("database.txt");
+	if (db.is_open()) {//checks if it is open
+		while (getline(db, line))//grabs a line out of the document
+		{
+			// TODO read from the file and convert into vector class
+			Student tmp = Student("Not Sure", "u96423678", "notsure@charlesjr.com", 2, 4, 3);
+			database.push_back(tmp);
+		}
 
-	// Populating the database
-	outfile << "Rick Sanchaz, u01234567, regularrick@gmail.com, 100, 110, 120" << endl;
-	outfile << "Morty Smith, u76543210, morty@gmail.com, 60, 75, 69" << endl;
-	outfile << "Summer Smith, u88965238, summer@gmail.com, 85, 100, 90" << endl;
-	outfile << "Walter White, u96571368, hizenburg@gmail.com, 100, 110, 120" << endl;
-	outfile << "Jesse Pinkman, u79269858, pinkman@gmail.com, 30, 50, 20" << endl;
+		db.close();
+	}
+	else {
+		// file decleration
+		ofstream outfile;
 
-	outfile.close();
+		// Creat file 
+		outfile.open("database.txt");
+
+		// Populating the file
+		outfile << "Rick Sanchaz, u01234567, regularrick@gmail.com, 6, 6, 6" << endl;
+		outfile << "Morty Smith, u76543210, morty@gmail.com, 3, 3, 2" << endl;
+		outfile << "Summer Smith, u88965238, summer@gmail.com, 4, 4, 3" << endl;
+		outfile << "Walter White, u96571368, hizenburg@gmail.com, 6, 6, 6" << endl;
+		outfile << "Jesse Pinkman, u79269858, pinkman@gmail.com, 1, 2, 1" << endl;
+
+		outfile.close();
+	}
 
 	int choice = 0;
 
