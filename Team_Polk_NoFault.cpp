@@ -146,6 +146,18 @@ int main() {
 		outfile << "Jesse Pinkman,u79269858,pinkman@gmail.com,1,2,1" << endl;
 
 		outfile.close();
+		
+		// TODO this needs to be cleaned up atm it is a bandaid
+		Student tmp = Student("Rick Sanchaz", "u01234567", "regularrick@gmail.com", 6, 6, 6);
+		database.push_back(tmp);
+		tmp = Student("Morty Smith", "u76543210", "morty@gmail.com", 3, 3, 2);
+		database.push_back(tmp);
+		tmp = Student("Summer Smith", "u88965238", "summer@gmail.com", 4, 4, 3);
+		database.push_back(tmp);
+		tmp = Student("Walter White", "u96571368", "hizenburg@gmail.com", 6, 6, 6);
+		database.push_back(tmp);
+		tmp = Student("Jesse Pinkman", "u79269858", "pinkman@gmail.com", 1, 2, 1);
+		database.push_back(tmp);
 	}
 
 	int choice = 0;
