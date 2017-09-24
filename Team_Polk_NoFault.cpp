@@ -1,4 +1,5 @@
 // Team Polk Members: Vladislav Ignatov, Leonard Holloman, Walter Soulliere, Timothy Jones
+// To compile on Linux use g++ -std=c+11 name_of_file.cpp
 #include <iostream>
 #include <string>
 #include <fstream>
