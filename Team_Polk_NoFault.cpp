@@ -90,7 +90,15 @@ void ADD() {
 
 // Delete student from database
 void DELETE() {
-	cout << "DELETE STUDENT" << endl;
+	int input = 0;
+	
+	DISPLAY();
+	cout << "Enter the Number of the student that you want to delete: ";
+	cin >> input;
+	
+	cout << endl << "Student Deleted: " << database[input -1].get_name() << endl << endl;
+	database.erase(database.begin() + input - 1);
+	DISPLAY();
 }
 
 // Saerch for a student
