@@ -3,6 +3,7 @@
 #include <string>
 #include <fstream>
 #include <vector>
+#include <cstring>
 using namespace std;
 
 class Student {
@@ -113,15 +114,15 @@ int main() {
 		while (getline(db, line))//grabs a line out of the document
 		{
 			string hold[6] = {};
-			char *next_token = NULL;
-			char *token = strtok_s((char*)line.c_str(), ",", &next_token);
+			//char *next_token = NULL;
+			char *token = strtok((char*)line.c_str(), ",");
 			int count = 0;
 
 			while (token) {
 				if (token != NULL)
 				{
 					hold[count++] = token;
-					token = strtok_s(NULL, ",", &next_token);
+					token = strtok_s(NULL, ",");
 				}
 			}
 			
