@@ -152,7 +152,7 @@ void ADD() {
 // Delete student from database
 void DELETE() {
 	int input = 0;
-	
+	char confirm;
 	bool check = false;
 	while(!check){
 		DISPLAY();
@@ -161,8 +161,18 @@ void DELETE() {
 		if((input > 0) && (input < database.size()+1)) check = true;
 		else cout << "Invalid entry, try a valid number(i.e. 1-" << database.size()+1 << ").\n";
 	}
-	cout << endl << "Student Deleted: " << database[input -1].get_fname() << " " << database[input -1].get_lname() << endl << endl;
-	database.erase(database.begin() + input - 1);
+	cout << "\nName: " << database[input-1].get_fname() << " " << database[input-1].get_lname() << "\nU Number: " << database[input-1].get_unum();
+	check = false;
+	while(!check){
+		cout << "\nDelete this Student?(y/n):";
+		cin >> confirm;
+		if(confirm == 'y'){
+			database.erase(database.begin() + input - 1);
+			check = true;
+		}
+		else if(confirm == 'n') check = true;
+		else cout << "This is a simple choice between y or n, try again.\n";
+	}
 	DISPLAY();
 	save();
 }
@@ -201,8 +211,47 @@ void SEARCH() {
 
 // Saerch for a student
 void UPDATE() {
+	int input = 0;
+	int nxtinput = 0;
+	int grade = 0;
+	string nwAtt;
+	bool check = false;
+	while(!check){
+		DISPLAY();
+		cout << "Enter the Number of the student to be modified: ";
+		cin >> input;
+		if((input > 0) && (input < database.size()+1)) check = true;
+		else cout << "\nInvalid entry, try a valid number(i.e. 1-" << database.size()+1 << ").\n";
+	}
+	check = false;
+	while(!check){
+		cout << "1. First Name " << database[input-1].get_fname() << "\n2. Last Name " << database[input-1].get_lname() << "\n3. Email " << database[input-1].get_email() << "\n4. U Number " << database[input-1].get_unum() << "\nWhich attribute? ";
+		cin >> nxtinput;
+		if((nxtinput > 0) && (nxtinput < 5)) check = true;
+		else cout << "\nPlease use a valid number.\n";
+	}
+	check = false;
+	while(!check){
+		cout << "\nNew attribute:";
+		cin >> nwAtt;
+		check = true;
+	}
+	switch(nxtinput){
+		case 1:
+			database[input-1].set_fname(nwAtt);
+			break;
+		case 2:
+			database[input-1].set_lname(nwAtt);
+			break;
+		case 3:
+			database[input-1].set_email(nwAtt);
+			break;
+		case 4:
+			database[input-1].set_unum(nwAtt);
+			break;
+	}
 	DISPLAY();
-	cout << "UPDATE a Students Info" << endl;
+	save();
 }
 
 void save(){
@@ -244,31 +293,6 @@ int main() {
 			database.push_back(tmp);
 			
 		}	
-
-		/*while (getline(db, line))//grabs a line out of the document
-		{
-			string hold[7] = {};
-			//char *next_token = NULL;
-			char *token = strtok((char*)line.c_str(), ",");
-			int count = 0;
-
-			while (token) {
-				if (token != NULL)
-				{
-					hold[count++] = token;
-					token = strtok(NULL, ",");
-				}
-			}
-			int a, b, c;
-			a = stoi(hold[4]);
-			b = stoi(hold[5]);
-			c = stoi(hold[6]);
-			Student tmp = Student(hold[0], hold[1], hold[2], hold[3], a, b, c);
-			//cout << atoi(hold[5]) << endl;
-			database.push_back(tmp);
-		}*/
-
-		//db.close();
 	}
 	else {
 		
