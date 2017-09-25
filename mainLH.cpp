@@ -116,13 +116,18 @@ void ADD() {
 void DELETE() {
 	int input = 0;
 	
-	DISPLAY();
-	cout << "Enter the Number of the student that you want to delete: ";
-	cin >> input;
-	
+	bool check = false;
+	while(!check){
+		DISPLAY();
+		cout << "Enter the Number of the student that you want to delete: ";
+		cin >> input;
+		if((input > 0) && (input < database.size()+1)) check = true;
+		else cout << "Invalid entry, try a valid number.\n";
+	}
 	cout << endl << "Student Deleted: " << database[input -1].get_fname() << " " << database[input -1].get_lname() << endl << endl;
 	database.erase(database.begin() + input - 1);
 	DISPLAY();
+	save();
 }
 
 // Saerch for a student
