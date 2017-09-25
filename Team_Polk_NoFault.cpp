@@ -73,7 +73,7 @@ void DISPLAY() {
 	cout << "--------------Student Information--------------" << endl << endl;
 
 	for (int i = 0; i < database.size(); i++) {
-		cout << database[i].get_name() << "  " << database[i].get_unum() << "  " << database[i].get_email() << "  Presentaion: ";
+		cout << i+1 << ". " << database[i].get_name() << "  " << database[i].get_unum() << "  " << database[i].get_email() << "  Presentaion: ";
 		cout << database[i].get_pres() << "  Paper: " << database[i].get_paper() << "  Project: " << database[i].get_proj() << endl;
 	}
 }
