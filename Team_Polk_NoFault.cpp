@@ -271,6 +271,7 @@ int main() {
 		//db.close();
 	}
 	else {
+		
 		// file decleration
 		ofstream outfile;
 
@@ -285,38 +286,41 @@ int main() {
 		outfile << "Jesse,Pinkman,u79269858,pinkman@gmail.com,1,2,1" << endl;
 
 		outfile.close();
-		
-		// TODO this needs to be cleaned up atm it is a bandaid
-		Student tmp = Student("Rick", "Sanchaz", "u01234567", "regularrick@gmail.com", 6, 6, 6);
-		database.push_back(tmp);
-		tmp = Student("Morty", "Smith", "u76543210", "morty@gmail.com", 3, 3, 2);
-		database.push_back(tmp);
-		tmp = Student("Summer", "Smith", "u88965238", "summer@gmail.com", 4, 4, 3);
-		database.push_back(tmp);
-		tmp = Student("Walter" ,"White", "u96571368", "hizenburg@gmail.com", 6, 6, 6);
-		database.push_back(tmp);
-		tmp = Student("Jesse", "Pinkman", "u79269858", "pinkman@gmail.com", 1, 2, 1);
-		database.push_back(tmp);
+		fp = fopen("database.txt", "r");
+
+		while(fgets(str, MAXLEN, fp) != NULL){
+			fn = strtok(str, ",");
+			ln = strtok(NULL, ",");
+			un = strtok(NULL, ",");
+			em = strtok(NULL, ",");
+			pres = strtok(NULL, ",");
+			pap = strtok(NULL, ",");
+			project = strtok(NULL, ",");
+			Student tmp = Student(fn, ln, un, em, atoi(pres), atoi(pap), atoi(project));
+			database.push_back(tmp);
+			
+		}
 	}
 
 	int choice = 0;
 
 	while (1) {
-		
-		cout << "\nWelcome to USF Class-Roll System\n";
-		cout << "1: READ Student Data\n";
-		cout << "2: WRITE Student Data\n";
-		cout << "3: ADD Student\n";
-		cout << "4: DELETE Student\n";
-		cout << "5: SEARCH Student\n";
-		cout << "6: UPDATE Student\n";
-		cout << "7: EXIT\n";
-		cout << "Enter in a number (1-7): ";
+		bool checkers = false;
+		while(!checkers){
+			cout << "\nWelcome to USF Class-Roll System\n";
+			cout << "1: READ Student Data\n";
+			cout << "2: WRITE Student Data\n";
+			cout << "3: ADD Student\n";
+			cout << "4: DELETE Student\n";
+			cout << "5: SEARCH Student\n";
+			cout << "6: UPDATE Student\n";
+			cout << "7: EXIT\n";
+			cout << "Enter in a number (1-7): ";
 
-		cin >> choice;
-
-		cout << "\n";
-
+			cin >> choice;
+			if((choice > 0) && (choice < 8)) checkers = true;
+			else cout << "\nNot even close to a valid selection\nNow lets try this again\nPay attention\n";
+		}
 		switch (choice)
 		{
 		case(1):
