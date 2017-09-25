@@ -91,8 +91,45 @@ void DISPLAY() {
 
 // Write student data or change it
 void WRITE() {
+	int input = 0;
+	int nxtinput = 0;
+	int grade = 0;
+	
+	bool check = false;
+	while(!check){
+		DISPLAY();
+		cout << "Enter the Number of the student whose grade you wish to alter: ";
+		cin >> input;
+		if((input > 0) && (input < database.size()+1)) check = true;
+		else cout << "\nInvalid entry, try a valid number(i.e. 1-" << database.size()+1 << ").\n";
+	}
+	check = false;
+	while(!check){
+		cout << "1. Presentation " << database[input-1].get_pres() << "\n2. Paper " << database[input-1].get_paper() << "\n3. Project " << database[input-1].get_proj() << "\nWhich grade? ";
+		cin >> nxtinput;
+		if((nxtinput > 0) && (nxtinput < 4)) check = true;
+		else cout << "\nPlease use a valid number.\n";
+	}
+	check = false;
+	while(!check){
+		cout << "\nNew grade?(0-4)";
+		cin >> grade;
+		if((grade >= 0) && (grade < 5)) check = true;
+		else cout << "\nStop making me repeat myself.\n";
+	}
+	switch(nxtinput){
+		case 1:
+			database[input-1].set_pres(grade);
+			break;
+		case 2:
+			database[input-1].set_paper(grade);
+			break;
+		case 3:
+			database[input-1].set_proj(grade);
+			break;
+	}
 	DISPLAY();
-	cout << "Write data" << endl;
+	save();
 }
 
 // Adds student to the database
@@ -122,7 +159,7 @@ void DELETE() {
 		cout << "Enter the Number of the student that you want to delete: ";
 		cin >> input;
 		if((input > 0) && (input < database.size()+1)) check = true;
-		else cout << "Invalid entry, try a valid number.\n";
+		else cout << "Invalid entry, try a valid number(i.e. 1-" << database.size()+1 << ").\n";
 	}
 	cout << endl << "Student Deleted: " << database[input -1].get_fname() << " " << database[input -1].get_lname() << endl << endl;
 	database.erase(database.begin() + input - 1);
