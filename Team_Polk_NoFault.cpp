@@ -5,6 +5,7 @@
 #include <fstream>
 #include <vector>
 #include <cstring>
+#include <algorithm>
 using namespace std;
 
 class Student {
@@ -103,8 +104,34 @@ void DELETE() {
 
 // Saerch for a student
 void SEARCH() {
+	
+	string name;
 	DISPLAY();
 	cout << "SEARCH for a Student" << endl;
+	cin >> name;
+	
+	
+		//search for name. If found, print student info
+		for (int i = 0; i < database.size(); i++) {
+			
+			//using string compare to find name
+			if (name.compare(database[i].get_name()) ==0){
+				
+				cout << "Match Found!" << endl;
+				cout << database[i].get_name() << " " database[i].get_unum() << " " <<database[i].get_email;
+				cout << " " << database[i].get_pres() << " " << database[i].get_paper() << " " << database[i].get_proj();
+				cout << endl;
+				
+				
+			    
+			}
+	
+			if((database.size() -1) == i){
+				
+   				cout << endl << name << " is not listed in the database" << endl;
+			}
+		}
+			
 }
 
 // Saerch for a student
