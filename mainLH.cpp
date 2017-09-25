@@ -10,6 +10,8 @@ using namespace std;
 
 #define MAXLEN 256
 
+void save();
+
 class Student {
 	string fname, lname, unum, email;
 	int pres, paper, proj;
@@ -82,8 +84,8 @@ void DISPLAY() {
 	cout << "--------------Student Information--------------" << endl << endl;
 
 	for (int i = 0; i < database.size(); i++) {
-		cout << i+1 << ". " << database[i].get_fname() << "  " << database[i].get_lname() << "  " << database[i].get_unum() << "  " << database[i].get_email() << "  Presentaion: ";
-		cout << database[i].get_pres() << "  Paper: " << database[i].get_paper() << "  Project: " << database[i].get_proj() << endl;
+		cout << i+1 << ". " << database[i].get_fname() << "\t" << database[i].get_lname() << "\t" << database[i].get_unum() << "\t" << database[i].get_email() << "\tPresentaion:";
+		cout << database[i].get_pres() << "\tPaper:" << database[i].get_paper() << "\tProject:" << database[i].get_proj() << endl;
 	}
 }
 
@@ -107,6 +109,7 @@ void ADD() {
 	Student nStu = Student(nfName, nlName, nUnum, nEmail, 0, 0, 0);
 	database.push_back(nStu);
 	DISPLAY();
+	save();
 }
 
 // Delete student from database
@@ -160,6 +163,15 @@ void UPDATE() {
 	cout << "UPDATE a Students Info" << endl;
 }
 
+void save(){
+	ofstream outfile;
+	outfile.open("database.txt");
+	for(unsigned int i=0; i < database.size(); i++){
+		outfile << database[i].get_fname() << "," << database[i].get_lname() << "," << database[i].get_unum() << "," << database[i].get_email() << "," << database[i].get_pres() << "," << database[i].get_paper() << "," << database[i].get_proj() << endl;
+	}
+	outfile.close();
+}
+
 int main() {
 	FILE *fp;
 	char str[MAXLEN];
@@ -173,7 +185,7 @@ int main() {
 	
 	string line;
 
-	ifstream db("database.txt");
+	//ifstream db("database.txt");
 
 	//if (db.is_open()) {//checks if it is open
 	if(fp = fopen("database.txt", "r")){
@@ -214,7 +226,7 @@ int main() {
 			database.push_back(tmp);
 		}*/
 
-		db.close();
+		//db.close();
 	}
 	else {
 		// file decleration
