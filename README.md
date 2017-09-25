@@ -1,6 +1,6 @@
 #TODO
 
-Functions need work: ADD, DELETE, WRITE, SEARCH, UPDATE
+Functions need work: ADD, DELETE, WRITE, SEARCH(done by Tim, needs revision), UPDATE
 
 ALSO: We need to make a validation and verification function for the input.
 
