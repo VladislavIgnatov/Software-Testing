@@ -1,7 +1,7 @@
 #TODO
 
-Functions need work: SEARCH, UPDATE
+Functions need work: SEARCH
 
-Lose-ends: main needs some cleaning.
+Lose-ends: Error checking must be implemented to ensure proper input from user.
 
 
