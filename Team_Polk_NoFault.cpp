@@ -8,18 +8,24 @@
 #include <algorithm>
 using namespace std;
 
+#define MAXLEN 256
+
+void save();
+
 class Student {
-	string name, unum, email;
+	string fname, lname, unum, email;
 	int pres, paper, proj;
 public:
-	Student(string, string, string, int, int, int);
-	void set_name(string);
+	Student(string, string, string, string, int, int, int);
+	void set_fname(string);
+	void set_lname(string);
 	void set_unum(string);
 	void set_email(string);
 	void set_pres(int);
 	void set_paper(int);
 	void set_proj(int);
-	string get_name() { return name; };
+	string get_lname() { return lname; };
+	string get_fname() { return fname; };
 	string get_unum() { return unum; };
 	string get_email() { return email; };
 	int get_pres() { return pres; };
@@ -27,8 +33,9 @@ public:
 	int get_proj() { return proj; };
 };
 
-Student::Student(string x, string y, string z, int a = 0, int b = 0, int c = 0) {
-	name = x;
+Student::Student(string x, string v, string y, string z, int a = 0, int b = 0, int c = 0) {
+	fname = x;
+	lname = v;
 	unum = y;
 	email = z;
 	pres = a;
@@ -36,9 +43,13 @@ Student::Student(string x, string y, string z, int a = 0, int b = 0, int c = 0) 
 	proj = c;
 }
 
-void Student::set_name(string x)
+void Student::set_fname(string x)
 {
-	name = x;
+	fname = x;
+}
+
+void Student::set_lname(string x){
+	lname = x;
 }
 
 void Student::set_unum(string x)
@@ -73,33 +84,87 @@ void DISPLAY() {
 	cout << "--------------Student Information--------------" << endl << endl;
 
 	for (int i = 0; i < database.size(); i++) {
-		cout << i+1 << ". " << database[i].get_name() << "  " << database[i].get_unum() << "  " << database[i].get_email() << "  Presentaion: ";
-		cout << database[i].get_pres() << "  Paper: " << database[i].get_paper() << "  Project: " << database[i].get_proj() << endl;
+		cout << i+1 << ". " << database[i].get_fname() << "\t" << database[i].get_lname() << "\t" << database[i].get_unum() << "\t" << database[i].get_email() << "\tPresentaion:";
+		cout << database[i].get_pres() << "\tPaper:" << database[i].get_paper() << "\tProject:" << database[i].get_proj() << endl;
 	}
 }
 
 // Write student data or change it
 void WRITE() {
+	int input = 0;
+	int nxtinput = 0;
+	int grade = 0;
+	
+	bool check = false;
+	while(!check){
+		DISPLAY();
+		cout << "Enter the Number of the student whose grade you wish to alter: ";
+		cin >> input;
+		if((input > 0) && (input < database.size()+1)) check = true;
+		else cout << "\nInvalid entry, try a valid number(i.e. 1-" << database.size()+1 << ").\n";
+	}
+	check = false;
+	while(!check){
+		cout << "1. Presentation " << database[input-1].get_pres() << "\n2. Paper " << database[input-1].get_paper() << "\n3. Project " << database[input-1].get_proj() << "\nWhich grade? ";
+		cin >> nxtinput;
+		if((nxtinput > 0) && (nxtinput < 4)) check = true;
+		else cout << "\nPlease use a valid number.\n";
+	}
+	check = false;
+	while(!check){
+		cout << "\nNew grade?(0-4)";
+		cin >> grade;
+		if((grade >= 0) && (grade < 5)) check = true;
+		else cout << "\nStop making me repeat myself.\n";
+	}
+	switch(nxtinput){
+		case 1:
+			database[input-1].set_pres(grade);
+			break;
+		case 2:
+			database[input-1].set_paper(grade);
+			break;
+		case 3:
+			database[input-1].set_proj(grade);
+			break;
+	}
 	DISPLAY();
-	cout << "Write data" << endl;
+	save();
 }
 
 // Adds student to the database
 void ADD() {
-	cout << "ADD STUDENT" << endl;
+	string nfName, nlName, nUnum, nEmail;
+	cout << "Student First Name:";
+	cin >> nfName;
+	cout << endl << "Student's Last Name:";
+	cin >> nlName;
+	cout << endl << "Student's UNumber:";
+	cin >> nUnum;
+	cout << endl << "Student's Email:";
+	cin >> nEmail;
+	Student nStu = Student(nfName, nlName, nUnum, nEmail, 0, 0, 0);
+	database.push_back(nStu);
+	DISPLAY();
+	save();
 }
 
 // Delete student from database
 void DELETE() {
 	int input = 0;
 	
-	DISPLAY();
-	cout << "Enter the Number of the student that you want to delete: ";
-	cin >> input;
-	
-	cout << endl << "Student Deleted: " << database[input -1].get_name() << endl << endl;
+	bool check = false;
+	while(!check){
+		DISPLAY();
+		cout << "Enter the Number of the student that you want to delete: ";
+		cin >> input;
+		if((input > 0) && (input < database.size()+1)) check = true;
+		else cout << "Invalid entry, try a valid number(i.e. 1-" << database.size()+1 << ").\n";
+	}
+	cout << endl << "Student Deleted: " << database[input -1].get_fname() << " " << database[input -1].get_lname() << endl << endl;
 	database.erase(database.begin() + input - 1);
 	DISPLAY();
+	save();
 }
 
 // Saerch for a student
@@ -115,10 +180,10 @@ void SEARCH() {
 		for (int i = 0; i < database.size(); i++) {
 			
 			//using string compare to find name
-			if (name.compare(database[i].get_name()) ==0){
+			if (name.compare(database[i].get_lname()) ==0){
 				
 				cout << "Match Found!" << endl;
-				cout << database[i].get_name() << " " << database[i].get_unum() << " " <<database[i].get_email();
+				cout << database[i].get_lname() << " " << database[i].get_unum() << " " <<database[i].get_email();
 				cout << " " << database[i].get_pres() << " " << database[i].get_paper() << " " << database[i].get_proj();
 				cout << endl;
 				
@@ -140,16 +205,49 @@ void UPDATE() {
 	cout << "UPDATE a Students Info" << endl;
 }
 
+void save(){
+	ofstream outfile;
+	outfile.open("database.txt");
+	for(unsigned int i=0; i < database.size(); i++){
+		outfile << database[i].get_fname() << "," << database[i].get_lname() << "," << database[i].get_unum() << "," << database[i].get_email() << "," << database[i].get_pres() << "," << database[i].get_paper() << "," << database[i].get_proj() << endl;
+	}
+	outfile.close();
+}
+
 int main() {
+	FILE *fp;
+	char str[MAXLEN];
+	char *fn;
+	char *ln;
+	char *em;
+	char *un;
+	char *pres;
+	char *pap;
+	char *project;
 	
 	string line;
 
-	ifstream db("database.txt");
+	//ifstream db("database.txt");
 
-	if (db.is_open()) {//checks if it is open
-		while (getline(db, line))//grabs a line out of the document
+	//if (db.is_open()) {//checks if it is open
+	if(fp = fopen("database.txt", "r")){
+
+		while(fgets(str, MAXLEN, fp) != NULL){
+			fn = strtok(str, ",");
+			ln = strtok(NULL, ",");
+			un = strtok(NULL, ",");
+			em = strtok(NULL, ",");
+			pres = strtok(NULL, ",");
+			pap = strtok(NULL, ",");
+			project = strtok(NULL, ",");
+			Student tmp = Student(fn, ln, un, em, atoi(pres), atoi(pap), atoi(project));
+			database.push_back(tmp);
+			
+		}	
+
+		/*while (getline(db, line))//grabs a line out of the document
 		{
-			string hold[6] = {};
+			string hold[7] = {};
 			//char *next_token = NULL;
 			char *token = strtok((char*)line.c_str(), ",");
 			int count = 0;
@@ -161,12 +259,16 @@ int main() {
 					token = strtok(NULL, ",");
 				}
 			}
-			
-			Student tmp = Student(hold[0], hold[1], hold[2], stoi(hold[3]), stoi(hold[4]), stoi(hold[5]));
+			int a, b, c;
+			a = stoi(hold[4]);
+			b = stoi(hold[5]);
+			c = stoi(hold[6]);
+			Student tmp = Student(hold[0], hold[1], hold[2], hold[3], a, b, c);
+			//cout << atoi(hold[5]) << endl;
 			database.push_back(tmp);
-		}
+		}*/
 
-		db.close();
+		//db.close();
 	}
 	else {
 		// file decleration
@@ -176,24 +278,24 @@ int main() {
 		outfile.open("database.txt");
 
 		// Populating the file
-		outfile << "Rick Sanchaz,u01234567,regularrick@gmail.com,6,6,6" << endl;
-		outfile << "Morty Smith,u76543210,morty@gmail.com,3,3,2" << endl;
-		outfile << "Summer Smith,u88965238,summer@gmail.com,4,4,3" << endl;
-		outfile << "Walter White,u96571368,hizenburg@gmail.com,6,6,6" << endl;
-		outfile << "Jesse Pinkman,u79269858,pinkman@gmail.com,1,2,1" << endl;
+		outfile << "Rick,Sanchaz,u01234567,regularrick@gmail.com,6,6,6" << endl;
+		outfile << "Morty,Smith,u76543210,morty@gmail.com,3,3,2" << endl;
+		outfile << "Summer,Smith,u88965238,summer@gmail.com,4,4,3" << endl;
+		outfile << "Walter,White,u96571368,hizenburg@gmail.com,6,6,6" << endl;
+		outfile << "Jesse,Pinkman,u79269858,pinkman@gmail.com,1,2,1" << endl;
 
 		outfile.close();
 		
 		// TODO this needs to be cleaned up atm it is a bandaid
-		Student tmp = Student("Rick Sanchaz", "u01234567", "regularrick@gmail.com", 6, 6, 6);
+		Student tmp = Student("Rick", "Sanchaz", "u01234567", "regularrick@gmail.com", 6, 6, 6);
 		database.push_back(tmp);
-		tmp = Student("Morty Smith", "u76543210", "morty@gmail.com", 3, 3, 2);
+		tmp = Student("Morty", "Smith", "u76543210", "morty@gmail.com", 3, 3, 2);
 		database.push_back(tmp);
-		tmp = Student("Summer Smith", "u88965238", "summer@gmail.com", 4, 4, 3);
+		tmp = Student("Summer", "Smith", "u88965238", "summer@gmail.com", 4, 4, 3);
 		database.push_back(tmp);
-		tmp = Student("Walter White", "u96571368", "hizenburg@gmail.com", 6, 6, 6);
+		tmp = Student("Walter" ,"White", "u96571368", "hizenburg@gmail.com", 6, 6, 6);
 		database.push_back(tmp);
-		tmp = Student("Jesse Pinkman", "u79269858", "pinkman@gmail.com", 1, 2, 1);
+		tmp = Student("Jesse", "Pinkman", "u79269858", "pinkman@gmail.com", 1, 2, 1);
 		database.push_back(tmp);
 	}
 
