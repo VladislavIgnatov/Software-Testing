@@ -118,7 +118,7 @@ void SEARCH() {
 			if (name.compare(database[i].get_name()) ==0){
 				
 				cout << "Match Found!" << endl;
-				cout << database[i].get_name() << " " database[i].get_unum() << " " <<database[i].get_email;
+				cout << database[i].get_name() << " " << database[i].get_unum() << " " <<database[i].get_email();
 				cout << " " << database[i].get_pres() << " " << database[i].get_paper() << " " << database[i].get_proj();
 				cout << endl;
 				
@@ -158,7 +158,7 @@ int main() {
 				if (token != NULL)
 				{
 					hold[count++] = token;
-					token = strtok_s(NULL, ",");
+					token = strtok(NULL, ",");
 				}
 			}
 			
