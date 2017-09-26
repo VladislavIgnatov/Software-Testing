@@ -101,7 +101,7 @@ void WRITE() {
 		cout << "Enter the Number of the student whose grade you wish to alter: ";
 		cin >> input;
 		if((input > 0) && (input < database.size()+1)) check = true;
-		else cout << "\nInvalid entry, try a valid number(i.e. 1-" << database.size() << ").\n";
+		else cout << "\nInvalid entry, try a valid number(i.e. 1-" << database.size()+1 << ").\n";
 	}
 	check = false;
 	while(!check){
@@ -238,7 +238,7 @@ void SEARCH() {
 					
 }
 
-// Saerch for a student
+// Update student info
 void UPDATE() {
 	int input = 0;
 	int nxtinput = 0;
@@ -283,6 +283,7 @@ void UPDATE() {
 	save();
 }
 
+//Save database to disk
 void save(){
 	ofstream outfile;
 	outfile.open("database.txt");
@@ -309,7 +310,7 @@ int main() {
 
 	//if (db.is_open()) {//checks if it is open
 	if(fp = fopen("database.txt", "r")){
-
+		//retreieve database
 		while(fgets(str, MAXLEN, fp) != NULL){
 			fn = strtok(str, ",");
 			ln = strtok(NULL, ",");
@@ -341,6 +342,7 @@ int main() {
 		outfile.close();
 		fp = fopen("database.txt", "r");
 
+		//build database
 		while(fgets(str, MAXLEN, fp) != NULL){
 			fn = strtok(str, ",");
 			ln = strtok(NULL, ",");
@@ -349,14 +351,14 @@ int main() {
 			pres = strtok(NULL, ",");
 			pap = strtok(NULL, ",");
 			project = strtok(NULL, ",");
-			Student tmp = Student(fn, ln, un, em, atoi(pres), atoi(pap), atoi(project));
-			database.push_back(tmp);
+			Student tmp = Student(fn, ln, un, em, atoi(pres), atoi(pap), atoi(project));//create student class
+			database.push_back(tmp);//add student to database
 			
 		}
 	}
 
 	int choice = 0;
-
+	//menu function
 	while (1) {
 		bool checkers = false;
 		while(!checkers){
@@ -371,7 +373,7 @@ int main() {
 			cout << "Enter in a number (1-7): ";
 
 			cin >> choice;
-			if((choice > 0) && (choice < 8)) checkers = true;
+			if((choice > 0) && (choice < 8)) checkers = true;//valid entry check
 			else cout << "\nNot even close to a valid selection\nNow lets try this again\nPay attention\n";
 		}
 		switch (choice)
