@@ -179,34 +179,63 @@ void DELETE() {
 
 // Saerch for a student
 void SEARCH() {
-	
+	int found[20];
+	bool check = false;
 	string name;
+	int sel;
 	DISPLAY();
-	cout << "SEARCH for a Student" << endl;
+	int j = 0;
+	for(int i = 0; i < 20; i++){
+		found[i] = -1;
+	}
+	while(!check){
+		cout << "SEARCH for a Student by\n\t1. Last Name\n\t2. First Name\n\t3. U Number\n\t4. Email Address\nPlease Chose(1-4):";
+		cin >> sel;
+		if((sel > 0) && (sel < 5)) check = true;
+		else cout << "You chose poorly, try again.\n";
+	}
+	cout << "Enter search criteria: ";
 	cin >> name;
-	
-	
-		//search for name. If found, print student info
-		for (int i = 0; i < database.size(); i++) {
-			
-			//using string compare to find name
-			if (name.compare(database[i].get_lname()) ==0){
-				
-				cout << "Match Found!" << endl;
-				cout << database[i].get_lname() << " " << database[i].get_unum() << " " <<database[i].get_email();
-				cout << " " << database[i].get_pres() << " " << database[i].get_paper() << " " << database[i].get_proj();
-				cout << endl;
-				
-				
-			    
+	switch(sel){
+		case 1:
+			for(int i = 0; i < database.size(); i++){
+				if(name.compare(database[i].get_lname()) ==0){
+					found[j] = i;
+					j++;
+				}
 			}
-	
-			if((database.size() -1) == i){
-				
-   				cout << endl << name << " is not listed in the database" << endl;
+			break;
+		case 2:
+			for(int i = 0; i < database.size(); i++){
+				if(name.compare(database[i].get_fname()) ==0){
+					found[j] = i;
+					j++;
+				}
 			}
-		}
-			
+			break;
+		case 3:
+			for(int i = 0; i < database.size(); i++){
+				if(name.compare(database[i].get_unum()) ==0){
+					found[j] = i;
+					j++;
+				}
+			}
+			break;
+		case 4:
+			for(int i = 0; i < database.size(); i++){
+				if(name.compare(database[i].get_email()) ==0){
+					found[j] = i;
+					j++;
+				}
+			}
+			break;
+	}
+	cout << "Found " << j << " matching accounts listed below.\n";
+	for(int i = 0; i < 20; i++){
+		if(found[i] >= 0) cout << found[i]+1 << endl;
+	}
+	cout << endl;
+					
 }
 
 // Saerch for a student
