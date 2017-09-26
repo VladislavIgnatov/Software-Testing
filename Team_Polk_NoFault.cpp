@@ -101,7 +101,7 @@ void WRITE() {
 		cout << "Enter the Number of the student whose grade you wish to alter: ";
 		cin >> input;
 		if((input > 0) && (input < database.size()+1)) check = true;
-		else cout << "\nInvalid entry, try a valid number(i.e. 1-" << database.size()+1 << ").\n";
+		else cout << "\nInvalid entry, try a valid number(i.e. 1-" << database.size() << ").\n";
 	}
 	check = false;
 	while(!check){
