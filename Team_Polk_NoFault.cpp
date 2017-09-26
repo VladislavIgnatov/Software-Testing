@@ -12,6 +12,7 @@ using namespace std;
 
 void save();
 
+//Student data container
 class Student {
 	string fname, lname, unum, email;
 	int pres, paper, proj;
@@ -305,10 +306,7 @@ int main() {
 	char *project;
 	
 	string line;
-
-	//ifstream db("database.txt");
-
-	//if (db.is_open()) {//checks if it is open
+	//open database file
 	if(fp = fopen("database.txt", "r")){
 		//retreieve database
 		while(fgets(str, MAXLEN, fp) != NULL){
@@ -324,6 +322,7 @@ int main() {
 			
 		}	
 	}
+	// executes if database is not present
 	else {
 		
 		// file decleration
