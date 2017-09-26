@@ -232,7 +232,7 @@ void SEARCH() {
 	}
 	cout << "Found " << j << " matching accounts listed below.\n";
 	for(int i = 0; i < 20; i++){
-		if(found[i] >= 0) cout << found[i]+1 << endl;
+		if(found[i] >= 0) cout << found[i]+1 << ". " << database[i].get_unum() << endl;
 	}
 	cout << endl;
 					
