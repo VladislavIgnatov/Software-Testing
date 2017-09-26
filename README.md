@@ -1,7 +1,7 @@
 #TODO
 
-Functions need work: SEARCH
-
-Lose-ends: Error checking must be implemented to ensure proper input from user.
+Finished product needs to be tested by someone other than the author.
+Need user input correction and error checking.
+File with seeded errors needs to be created.
 
 
