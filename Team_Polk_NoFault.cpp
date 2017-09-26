@@ -12,6 +12,7 @@ using namespace std;
 
 void save();
 
+//Student data container
 class Student {
 	string fname, lname, unum, email;
 	int pres, paper, proj;
@@ -69,7 +70,7 @@ void Student::set_pres(int x)
 
 void Student::set_paper(int x)
 {
-	proj = x;
+	paper = x;
 }
 
 void Student::set_proj(int x)
@@ -83,7 +84,7 @@ vector<Student> database;
 void DISPLAY() {
 	cout << "--------------Student Information--------------" << endl << endl;
 
-	for (int i = 1; i <= database.size(); i++) {
+	for (int i = 0; i < database.size(); i++) {
 		cout << i+1 << ". " << database[i].get_fname() << "\t" << database[i].get_lname() << "\t" << database[i].get_unum() << "\t" << database[i].get_email() << "\tPresentaion:";
 		cout << database[i].get_pres() << "\tPaper:" << database[i].get_paper() << "\tProject:" << database[i].get_proj() << endl;
 	}
@@ -93,7 +94,7 @@ void DISPLAY() {
 void WRITE() {
 	int input = 0;
 	int nxtinput = 0;
-	char grade = 0;
+	int grade = 0;
 	
 	bool check = false;
 	while(!check){
@@ -101,13 +102,13 @@ void WRITE() {
 		cout << "Enter the Number of the student whose grade you wish to alter: ";
 		cin >> input;
 		if((input > 0) && (input < database.size()+1)) check = true;
-		else cout << "\nInvalid entry, try a valid number(i.e. 1-" << database.size() << ").\n";
+		else cout << "\nInvalid entry, try a valid number(i.e. 1-" << database.size()+1 << ").\n";
 	}
 	check = false;
 	while(!check){
 		cout << "1. Presentation " << database[input-1].get_pres() << "\n2. Paper " << database[input-1].get_paper() << "\n3. Project " << database[input-1].get_proj() << "\nWhich grade? ";
 		cin >> nxtinput;
-		if((nxtinput > 0) && (nxtinput < 4)) check = false;
+		if((nxtinput > 0) && (nxtinput < 4)) check = true;
 		else cout << "\nPlease use a valid number.\n";
 	}
 	check = false;
@@ -129,6 +130,7 @@ void WRITE() {
 			break;
 	}
 	DISPLAY();
+	save();
 }
 
 // Adds student to the database
@@ -139,9 +141,9 @@ void ADD() {
 	cout << endl << "Student's Last Name:";
 	cin >> nlName;
 	cout << endl << "Student's UNumber:";
-	cin >> nEmail;
-	cout << endl << "Student's Email:";
 	cin >> nUnum;
+	cout << endl << "Student's Email:";
+	cin >> nEmail;
 	Student nStu = Student(nfName, nlName, nUnum, nEmail, 0, 0, 0);
 	database.push_back(nStu);
 	DISPLAY();
@@ -167,12 +169,9 @@ void DELETE() {
 		cin >> confirm;
 		if(confirm == 'y'){
 			database.erase(database.begin() + input - 1);
-			check = false;
-		}
-		else if(confirm == 'n') {
-			database.erase(database.begin() + input - 1);
 			check = true;
 		}
+		else if(confirm == 'n') check = true;
 		else cout << "This is a simple choice between y or n, try again.\n";
 	}
 	DISPLAY();
@@ -211,7 +210,6 @@ void SEARCH() {
 			for(int i = 0; i < database.size(); i++){
 				if(name.compare(database[i].get_fname()) ==0){
 					found[j] = i;
-					i--;
 					j++;
 				}
 			}
@@ -241,7 +239,7 @@ void SEARCH() {
 					
 }
 
-// Saerch for a student
+// Update student info
 void UPDATE() {
 	int input = 0;
 	int nxtinput = 0;
@@ -252,24 +250,22 @@ void UPDATE() {
 		DISPLAY();
 		cout << "Enter the Number of the student to be modified: ";
 		cin >> input;
-		if((input < 0) && (input < database.size()+1)) check = true;
+		if((input > 0) && (input < database.size()+1)) check = true;
 		else cout << "\nInvalid entry, try a valid number(i.e. 1-" << database.size()+1 << ").\n";
 	}
-	
 	check = false;
 	while(!check){
 		cout << "1. First Name " << database[input-1].get_fname() << "\n2. Last Name " << database[input-1].get_lname() << "\n3. Email " << database[input-1].get_email() << "\n4. U Number " << database[input-1].get_unum() << "\nWhich attribute? ";
-		cout << nxtinput;
+		cin >> nxtinput;
 		if((nxtinput > 0) && (nxtinput < 5)) check = true;
 		else cout << "\nPlease use a valid number.\n";
 	}
-
+	check = false;
 	while(!check){
 		cout << "\nNew attribute:";
 		cin >> nwAtt;
 		check = true;
 	}
-	
 	switch(nxtinput){
 		case 1:
 			database[input-1].set_fname(nwAtt);
@@ -288,12 +284,12 @@ void UPDATE() {
 	save();
 }
 
+//Save database to disk
 void save(){
 	ofstream outfile;
 	outfile.open("database.txt");
-	for(unsigned int i=database.size(); i < 0 ; i--){
+	for(unsigned int i=0; i < database.size(); i++){
 		outfile << database[i].get_fname() << "," << database[i].get_lname() << "," << database[i].get_unum() << "," << database[i].get_email() << "," << database[i].get_pres() << "," << database[i].get_paper() << "," << database[i].get_proj() << endl;
-		i++;
 	}
 	outfile.close();
 }
@@ -307,14 +303,12 @@ int main() {
 	char *un;
 	char *pres;
 	char *pap;
+	char *project;
 	
 	string line;
-
-	//ifstream db("database.txt");
-
-	//if (db.is_open()) {//checks if it is open
-	if(fp = fopen("database.txt", "w")){
-
+	//open database file
+	if(fp = fopen("database.txt", "r")){
+		//retreieve database
 		while(fgets(str, MAXLEN, fp) != NULL){
 			fn = strtok(str, ",");
 			ln = strtok(NULL, ",");
@@ -328,6 +322,7 @@ int main() {
 			
 		}	
 	}
+	// executes if database is not present
 	else {
 		
 		// file decleration
@@ -346,7 +341,8 @@ int main() {
 		outfile.close();
 		fp = fopen("database.txt", "r");
 
-		while(fgets(str, MAXLEN, fp) == NULL){
+		//build database
+		while(fgets(str, MAXLEN, fp) != NULL){
 			fn = strtok(str, ",");
 			ln = strtok(NULL, ",");
 			un = strtok(NULL, ",");
@@ -354,14 +350,14 @@ int main() {
 			pres = strtok(NULL, ",");
 			pap = strtok(NULL, ",");
 			project = strtok(NULL, ",");
-			Student tmp = Student(fn, ln, un, em, atoi(pres), atoi(pap), atoi(project));
-			database.push_back(tmp);
+			Student tmp = Student(fn, ln, un, em, atoi(pres), atoi(pap), atoi(project));//create student class
+			database.push_back(tmp);//add student to database
 			
 		}
 	}
 
 	int choice = 0;
-
+	//menu function
 	while (1) {
 		bool checkers = false;
 		while(!checkers){
@@ -376,6 +372,8 @@ int main() {
 			cout << "Enter in a number (1-7): ";
 
 			cin >> choice;
+			if((choice > 0) && (choice < 8)) checkers = true;//valid entry check
+			else cout << "\nNot even close to a valid selection\nNow lets try this again\nPay attention\n";
 		}
 		switch (choice)
 		{
